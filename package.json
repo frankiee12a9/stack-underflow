@@ -7,7 +7,7 @@
 		"build": "INLINE_RUNTIME_CHUNK=false cross-env NODE_ENV=production npm run set:env && cross-env NODE_ENV=production env-cmd  react-scripts build",
 		"install-client": "cd client && npm install",
 		"postinstall": "cd client && npm install",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install  && npm run build",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && npm install && npm run build",
 		"heroku-prebuild": "npm install --dev",
 		"start": "set NODE_ENV=development && nodemon app.js",
 		"start:dev": "nodemon index.js",
