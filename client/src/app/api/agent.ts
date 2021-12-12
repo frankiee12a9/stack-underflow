@@ -25,7 +25,7 @@ const sleep = (delay: number) => {
 // create new instance for specified url
 // with specified axios instance, api url can be accessed in other places
 export const axiosInstance = axios.create({
-	baseURL: "https://dangling-qa.herokuapp.com",
+	baseURL: "https://dangling-qa.herokuapp.com/api/",
 })
 
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL
@@ -47,7 +47,7 @@ axiosInstance.interceptors.response.use(
 	// any response without 200 statusCode wil go here
 	(error: AxiosError) => {
 		const { data, status, config } = error.response!
-		console.log(data, config)
+		console.log(status)
 		switch (status) {
 			case 400: {
 				toast.error("bad request")
