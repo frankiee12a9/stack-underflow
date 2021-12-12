@@ -65,12 +65,12 @@ axios.interceptors.response.use(
 				break
 			}
 			case 404: {
-				// window.location.replace("/notfound")
+				window.location.replace("/notfound")
 				// toast.error("not found")
 				break
 			}
 			case 500: {
-				// window.location.replace("/server-error")
+				window.location.replace("/server-error")
 				// history.push("/server-error")
 				break
 			}
