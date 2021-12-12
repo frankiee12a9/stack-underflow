@@ -24,21 +24,19 @@ const sleep = (delay: number) => {
 
 // create new instance for specified url
 // with specified axios instance, api url can be accessed in other places
-// const axiosInstance = axios.create({
-// 	baseURL: "http://localhost:8800/api",
-// })
+export const axiosInstance = axios.create({
+	baseURL: "https://dangling-qa.herokuapp.com/api/",
+})
 
-// axios.defaults.baseURL = "http://localhost:8800/api"
+// axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL
-
-axios.interceptors.request.use(config => {
+axiosInstance.interceptors.request.use(config => {
 	const token = store.commonStore.token
 	if (token) config.headers!.Authorization = `Bearer ${token}`
 	return config
 })
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
 	async response => {
 		await sleep(1000)
 		// console.log(`response: ${response.data}`)
@@ -83,12 +81,12 @@ axios.interceptors.response.use(
 const responseBody = <T>(response: AxiosResponse<T>) => response.data
 
 const requests = {
-	get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+	get: <T>(url: string) => axiosInstance.get<T>(url).then(responseBody),
 	post: <T>(url: string, body: {}) =>
-		axios.post<T>(url, body).then(responseBody),
+		axiosInstance.post<T>(url, body).then(responseBody),
 	put: <T>(url: string, body: {}) =>
-		axios.put<T>(url, body).then(responseBody),
-	del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
+		axiosInstance.put<T>(url, body).then(responseBody),
+	del: <T>(url: string) => axiosInstance.delete<T>(url).then(responseBody),
 }
 
 const AppAccount = {

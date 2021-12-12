@@ -2,10 +2,13 @@ import React, { useState } from "react"
 import { Button, Header, Segment } from "semantic-ui-react"
 import axios from "axios"
 import ValidationError from "./ValidationError"
+import { axiosInstance } from "../../app/api/agent"
 
 export default function TestErrors() {
-	const baseUrl = process.env.REACT_APP_API_URL
+	// const baseUrl = process.env.REACT_APP_API_URL
 	// const baseUrl = "http://localhost:8800/api/"
+	const baseUrl = axiosInstance
+
 	const [errors, setErrors] = useState(null)
 
 	function handleNotFound() {
