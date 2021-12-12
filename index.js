@@ -80,7 +80,7 @@ console.log(`node env: ${process.env.NODE_ENV}`)
 // 	console.log("Serving React App...")
 // }
 
-// app.use(express.static(path.join(__dirname, "./client/build")))
+app.use(express.static(path.join(__dirname, "./client/build")))
 app.get("*", (req, res) => {
 	// don't serve api routes to react app
 	// res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
