@@ -21,8 +21,11 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
 const corsOptions = {
 	origin: "http://localhost:3001",
 }
-
-app.use(helmet())
+app.use(
+	helmet({
+		contentSecurityPolicy: false,
+	})
+)
 app.use(cookieParser())
 const oneDay = 1000 * 60 * 60 * 24
 app.use(
