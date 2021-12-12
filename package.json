@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "webpack",
+		"build": "INLINE_RUNTIME_CHUNK=false cross-env NODE_ENV=production npm run set:env && cross-env NODE_ENV=production env-cmd  react-scripts build",
 		"client-install": "npm install --prefix client",
 		"install-client": "cd client && npm install",
 		"postinstall": "cd client && npm install",
