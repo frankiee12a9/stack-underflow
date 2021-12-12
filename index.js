@@ -52,6 +52,7 @@ require("./routes/postRoute")(app)
 require("./routes/categoryRoute")(app)
 require("./routes/errorRoute")(app)
 
+const PORT = process.env.PORT || 8800
 console.log(`node env: ${process.env.NODE_ENV}`)
 // Serve static assets if in production
 if (process.env.NODE_ENV !== "development") {
@@ -62,8 +63,6 @@ if (process.env.NODE_ENV !== "development") {
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
 	})
 }
-
-const PORT = process.env.PORT || 8800
 
 app.listen(PORT, () => {
 	console.log("Backend server is runing on port", PORT)
