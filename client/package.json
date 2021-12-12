@@ -68,5 +68,5 @@
 	"devDependencies": {
 		"cross-env": "^7.0.3"
 	},
-	"proxy": "https://dangling-qa.herokuapp.com/"
+	"proxy": "https://dangling-qa.herokuapp.com/api"
 }

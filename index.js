@@ -11,6 +11,8 @@ const morgan = require("morgan")
 const compression = require("compression")
 const path = require("path")
 const app = express()
+// place in src with index.js no need to import anywhere
+const proxy = require("http-proxy-middleware")
 
 dotenv.config()
 
@@ -30,6 +32,11 @@ app.use(
 		contentSecurityPolicy: false,
 	})
 )
+
+module.exports = function (app) {
+	// add other server routes to path array
+	app.use(proxy(["/api"], { target: "http://localhost:8800" }))
+}
 if (process.env.NODE_ENV === "development") app.use(cors(corsOptions))
 else app.use(cors(_corsOptions))
 app.use(cookieParser())
@@ -80,14 +87,14 @@ console.log(`node env: ${process.env.NODE_ENV}`)
 // 	console.log("Serving React App...")
 // }
 
-app.use(express.static(path.join(__dirname, "./client/build")))
+app.use(express.static(path.join(__dirname, "/client/build")))
 app.get("*", (req, res) => {
 	// don't serve api routes to react app
 	// res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
 	// app.get("*", (req, res) => {
 	// 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
 	// })
-	res.sendFile(path.join(__dirname, "./client/build/", "index.html"))
+	res.sendFile(path.join(__dirname, "/client/build/", "index.html"))
 })
 
 app.listen(PORT, () => {
