@@ -12,8 +12,8 @@ const compression = require("compression")
 const path = require("path")
 const app = express()
 // place in src with index.js no need to import anywhere
-const proxy = require("http-proxy-middleware")
-
+// const proxy = require("http-proxy-middleware")
+const { createProxyMiddleware } = require("http-proxy-middleware")
 dotenv.config()
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
@@ -32,11 +32,6 @@ app.use(
 		contentSecurityPolicy: false,
 	})
 )
-
-module.exports = function (app) {
-	// add other server routes to path array
-	app.use(proxy(["/api"], { target: "http://localhost:8800" }))
-}
 if (process.env.NODE_ENV === "development") app.use(cors(corsOptions))
 else app.use(cors(_corsOptions))
 app.use(cookieParser())
@@ -49,6 +44,18 @@ app.use(
 		resave: false,
 	})
 )
+createProxyMiddleware({
+	target: "http://localhost:8800/api",
+	changeOrigin: true,
+})
+
+// app.use(
+// 	proxy({
+// 		target: "http://localhost:8800/api",
+// 		changeOrigin: true,
+// 	})
+// )
+// app.use(proxy(["/api"], { target: "http://localhost:8800" }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(__dirname))
