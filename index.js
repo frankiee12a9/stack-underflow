@@ -51,7 +51,7 @@ require("./routes/errorRoute")(app)
 
 console.log(`node env: ${process.env.NODE_ENV}`)
 // Serve static assets if in production
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV !== "development") {
 	// Set static folder
 	app.use(express.static("client/build"))
 
