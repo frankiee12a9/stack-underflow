@@ -21,11 +21,17 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
 const corsOptions = {
 	origin: "http://localhost:3001",
 }
+const _corsOptions = {
+	origin: "https://dangling-qa.herokuapp.com",
+	credentials: true,
+}
 app.use(
 	helmet({
 		contentSecurityPolicy: false,
 	})
 )
+if (process.env.NODE_ENV === "development") app.use(cors(corsOptions))
+else app.use(cors(_corsOptions))
 app.use(cookieParser())
 const oneDay = 1000 * 60 * 60 * 24
 app.use(
