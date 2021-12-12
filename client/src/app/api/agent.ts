@@ -30,6 +30,8 @@ export const axiosInstance = axios.create({
 
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
+console.log(`axiosInstance: ${axiosInstance}`)
+
 axiosInstance.interceptors.request.use(config => {
 	const token = store.commonStore.token
 	if (token) config.headers!.Authorization = `Bearer ${token}`
@@ -39,7 +41,7 @@ axiosInstance.interceptors.request.use(config => {
 axiosInstance.interceptors.response.use(
 	async response => {
 		await sleep(1000)
-		// console.log(`response: ${response.data}`)
+		console.log(`response: ${response.data}`)
 		return response
 	},
 	// any response without 200 statusCode wil go here
