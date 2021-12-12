@@ -68,7 +68,6 @@ console.log(`node env: ${process.env.NODE_ENV}`)
 // })
 
 if (process.env.NODE_ENV !== "development") {
-	app.use(express.static("client/build")) // serve the static react app
 	app.use(express.static(path.join(__dirname, "client/build")))
 	app.get("*", (req, res) => {
 		// don't serve api routes to react app
