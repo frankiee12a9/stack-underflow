@@ -16,7 +16,7 @@ const proxy = require("http-proxy-middleware")
 const { createProxyMiddleware } = require("http-proxy-middleware")
 dotenv.config()
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => {
 	console.log("connected to mongoDB")
 })
 
