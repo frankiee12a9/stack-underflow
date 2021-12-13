@@ -24,12 +24,12 @@ const sleep = (delay: number) => {
 
 // create new instance for specified url
 // with specified axios instance, api url can be accessed in other places
-// export const axiosInstance = axios.create({
-// 	baseURL: "https://dangling-qa.herokuapp.com/api/",
-// })
 export const axiosInstance = axios.create({
-	baseURL: process.env.REACT_APP_API_URL,
+	baseURL: "https://dangling-qa.herokuapp.com/api/",
 })
+// export const axiosInstance = axios.create({
+// 	baseURL: process.env.REACT_APP_API_URL,
+// })
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 console.log(`axiosInstance: ${axiosInstance}`)
