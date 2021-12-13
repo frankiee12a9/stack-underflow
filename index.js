@@ -81,28 +81,28 @@ console.log(`node env: ${process.env.NODE_ENV}`)
 // 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
 // })
 
-// if (process.env.NODE_ENV === "production") {
-// 	app.use(express.static(path.join(__dirname, "/client/build")))
-// 	app.get("*", (req, res) => {
-// 		// don't serve api routes to react app
-// 		// res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-// 		// app.get("*", (req, res) => {
-// 		// 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-// 		// })
-// 		res.sendFile(path.join(__dirname, "/client/build/", "index.html"))
-// 	})
-// 	console.log("Serving React App...")
-// }
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/client/build")))
+	app.get("*", (req, res) => {
+		// don't serve api routes to react app
+		// res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+		// app.get("*", (req, res) => {
+		// 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+		// })
+		res.sendFile(path.join(__dirname, "/client/build/", "index.html"))
+	})
+	console.log("Currently in production mode...")
+}
 
-app.use(express.static(path.join(__dirname, "/client/build")))
-app.get("*", (req, res) => {
-	// don't serve api routes to react app
-	// res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-	// app.get("*", (req, res) => {
-	// 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-	// })
-	res.sendFile(path.join(__dirname, "/client/build/", "index.html"))
-})
+// app.use(express.static(path.join(__dirname, "/client/build")))
+// app.get("*", (req, res) => {
+// 	// don't serve api routes to react app
+// 	// res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+// 	// app.get("*", (req, res) => {
+// 	// 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+// 	// })
+// 	res.sendFile(path.join(__dirname, "/client/build/", "index.html"))
+// })
 
 app.listen(PORT, () => {
 	console.log("Backend server is runing on port", PORT)
