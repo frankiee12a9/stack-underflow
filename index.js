@@ -20,10 +20,10 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => {
 	console.log("connected to mongoDB")
 })
 
-const corsOptions = {
+const corsOption = {
 	origin: "http://localhost:3001",
 }
-const _corsOptions = {
+const _corsOption = {
 	origin: "https://dangling-qa.herokuapp.com",
 	credentials: true,
 }
@@ -32,8 +32,13 @@ app.use(
 		contentSecurityPolicy: false,
 	})
 )
-if (process.env.NODE_ENV === "development") app.use(cors(corsOptions))
-else app.use(cors(_corsOptions))
+if (process.env.NODE_ENV === "production") {
+	app.use(cors(_corsOption))
+	console.log(`cors is in production mode ${_corsOption.origin}`)
+} else {
+	app.use(cors(corsOption))
+	console.log(`cors is in development mode ${corsOption.origin}`)
+}
 app.use(cookieParser())
 const oneDay = 1000 * 60 * 60 * 24
 app.use(
@@ -59,7 +64,6 @@ createProxyMiddleware({
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(__dirname))
-app.use(cors(corsOptions))
 app.use(morgan("common"))
 app.use(compression())
 app.use(express.urlencoded({ extended: false }))
