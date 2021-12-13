@@ -44,10 +44,10 @@ app.use(
 		resave: false,
 	})
 )
-createProxyMiddleware({
-	target: "http://localhost:8800/api",
-	changeOrigin: true,
-})
+// createProxyMiddleware({
+// 	target: "http://localhost:8800/api",
+// 	changeOrigin: true,
+// })
 
 // app.use(
 // 	proxy({
