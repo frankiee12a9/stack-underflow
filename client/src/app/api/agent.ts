@@ -24,12 +24,12 @@ const sleep = (delay: number) => {
 
 // create new instance for specified url
 // with specified axios instance, api url can be accessed in other places
-export const axiosInstance = axios.create({
-	baseURL: "https://dangling-qa.herokuapp.com/api",
-})
 // export const axiosInstance = axios.create({
-// 	baseURL: process.env.REACT_APP_API_URL,
+// 	baseURL: "https://dangling-qa.herokuapp.com/api",
 // })
+export const axiosInstance = axios.create({
+	baseURL: process.env.REACT_APP_API_URL,
+})
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 console.log(`axiosInstance: ${axiosInstance}`)
@@ -49,7 +49,7 @@ axiosInstance.interceptors.response.use(
 	// any response without 200 statusCode wil go here
 	(error: AxiosError) => {
 		const { data, status, config } = error.response!
-		console.log(status)
+		console.log(`error: ${data}`)
 		switch (status) {
 			case 400: {
 				toast.error("bad request")
@@ -67,13 +67,13 @@ axiosInstance.interceptors.response.use(
 				break
 			}
 			case 404: {
-				window.location.replace("/notfound")
-				// toast.error("not found")
+				// window.location.replace("/notfound")
+				toast.error("not found")
 				break
 			}
 			case 500: {
-				window.location.replace("/server-error")
-				// history.push("/server-error")
+				// window.location.replace("/server-error")
+				history.push("/server-error")
 				break
 			}
 		}

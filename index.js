@@ -12,7 +12,7 @@ const compression = require("compression")
 const path = require("path")
 const app = express()
 // place in src with index.js no need to import anywhere
-// const proxy = require("http-proxy-middleware")
+const proxy = require("http-proxy-middleware")
 const { createProxyMiddleware } = require("http-proxy-middleware")
 dotenv.config()
 
@@ -44,10 +44,10 @@ app.use(
 		resave: false,
 	})
 )
-// createProxyMiddleware({
-// 	target: "http://localhost:8800/api",
-// 	changeOrigin: true,
-// })
+createProxyMiddleware({
+	target: "http://localhost:8800/api",
+	changeOrigin: true,
+})
 
 // app.use(
 // 	proxy({
