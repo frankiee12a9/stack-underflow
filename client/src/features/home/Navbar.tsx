@@ -56,7 +56,7 @@ export default observer(function Navbar() {
 									to={`/profiles/${user?.username}`}
 									icon="user"
 									onClick={() => getUser}>
-									{/* My Profile */}
+									My Profile
 								</Dropdown.Item>
 								<Dropdown.Item
 									as={Link}

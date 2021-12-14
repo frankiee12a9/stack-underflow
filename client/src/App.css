@@ -43,6 +43,10 @@
 	font-size: 4em;
 	font-weight: normal;
 }
+.custom_textarea {
+	resize: vertical;
+	overflow: auto;
+}
 
 .masthead h2 {
 	font-size: 1.7em;

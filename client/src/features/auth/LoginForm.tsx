@@ -12,6 +12,17 @@ export default observer(function LoginForm() {
 	} = useStore()
 	const history = useHistory()
 
+	const authDetails = (
+		<div style={{ textAlign: "center" }}>
+			<p>앱에서 모든 권한을 가지는 계좌 사용:</p>
+			<p>email: alice@test.com</p>
+			<p>password: @kien12a99</p>
+			<hr />
+			<p>email: tom@test.com</p>
+			<p>password: @kien12a99</p>
+		</div>
+	)
+
 	return (
 		<Segment clearing>
 			<Formik
@@ -63,6 +74,7 @@ export default observer(function LoginForm() {
 					</Form>
 				)}
 			</Formik>
+			{authDetails}
 		</Segment>
 	)
 })

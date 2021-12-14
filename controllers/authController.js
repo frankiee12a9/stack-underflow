@@ -23,11 +23,8 @@ exports.register = async (req, res) => {
 			password: hashedPassword,
 		})
 
-		const user = await newUser.save()
-		res.status(200).json({
-			status: true,
-			data: user,
-		})
+		await newUser.save()
+		res.status(200).json(newUser)
 	} catch (err) {
 		res.status(500).send({
 			error: err,

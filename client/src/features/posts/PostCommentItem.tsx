@@ -21,7 +21,11 @@ export default observer(function PostCommentItem({
 	post,
 }: Props) {
 	const { commentStore } = useStore()
-	let [votesCount, setVotesCount] = useState(comment.votes?.length)
+	const [votesCount, setVotesCount] = useState(comment.votes?.length)
+	const [postComment, setPostComment] = useState<PostComment>(
+		commentStore.comment!
+	)
+	const [voteStatus, setVoteStatus] = useState(false)
 
 	useEffect(() => {
 		setVotesCount(comment.votes?.length)
@@ -33,13 +37,35 @@ export default observer(function PostCommentItem({
 		const isVoted = comment?.votes?.includes(user.username)
 		if (isVoted) {
 			setVotesCount(votesCount - 1)
+			setVoteStatus(false)
 		} else {
 			setVotesCount(votesCount + 1)
+			setVoteStatus(true)
 		}
 	}
 
+	const handleDeleteComment = () => {
+		if (postComment?._id)
+			commentStore
+				.deleteComment(post._id, postComment?._id)
+				.then(() =>
+					toast.success("Comment has been deleted successfully")
+				)
+		else
+			commentStore
+				.deleteComment(post._id, comment._id)
+				.then(() =>
+					toast.success("Comment has been deleted successfully")
+				)
+	}
+
+	useEffect(() => {
+		if (postComment?._id) console.log(`comment changed ${postComment._id}`)
+	}, [postComment])
+
 	const postTimestime = moment(comment.createdAt)
 	const diff = postTimestime.fromNow()
+
 	return (
 		<>
 			<Comment>
@@ -50,7 +76,9 @@ export default observer(function PostCommentItem({
 					}
 				/>
 				<Comment.Content>
-					<Comment.Author as={Link} to={`/profiles/`}>
+					<Comment.Author
+						as={Link}
+						to={`/profiles/${comment.commentator?.username}`}>
 						{comment.commentator?.username}
 					</Comment.Author>
 					<Comment.Metadata>
@@ -68,20 +96,11 @@ export default observer(function PostCommentItem({
 					<Comment.Actions>
 						{user?.username !== comment.commentator.username && (
 							<Comment.Action onClick={handleCommentVoting}>
-								vote
+								{voteStatus ? "unvote" : "vote"}
 							</Comment.Action>
 						)}
 						{user?.isAdmin && comment.commentator.username && (
-							<Comment.Action
-								onClick={() =>
-									commentStore
-										.deleteComment(post._id, comment._id)
-										.then(() =>
-											toast.success(
-												"Comment has been deleted succesfully"
-											)
-										)
-								}>
+							<Comment.Action onClick={handleDeleteComment}>
 								delete
 							</Comment.Action>
 						)}

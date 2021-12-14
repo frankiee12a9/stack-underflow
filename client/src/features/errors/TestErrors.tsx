@@ -1,42 +1,32 @@
-import React, { useState } from "react"
+import React from "react"
 import { Button, Header, Segment } from "semantic-ui-react"
 import axios from "axios"
-import ValidationError from "./ValidationError"
-import { axiosInstance } from "../../app/api/agent"
 
 export default function TestErrors() {
-	// const baseUrl = process.env.REACT_APP_API_URL
-	// const baseUrl = "http://localhost:8800/api/"
-	const baseUrl = axiosInstance
-
-	const [errors, setErrors] = useState(null)
+	const baseUrl = process.env.REACT_APP_API_URL
 
 	function handleNotFound() {
 		axios
-			.get(baseUrl + "errors/notFound")
+			.get(baseUrl + "/errors/notfound")
 			.catch(err => console.log(err.response))
 	}
 
 	function handleBadRequest() {
 		axios
-			.get(baseUrl + "errors/badRequest")
+			.get(baseUrl + "/errors/badRequest")
 			.catch(err => console.log(err.response))
 	}
 
 	function handleServerError() {
 		axios
-			.get(baseUrl + "errors/serverError")
+			.get(baseUrl + "/errors/server-error")
 			.catch(err => console.log(err.response))
 	}
 
 	function handleUnauthorised() {
 		axios
-			.get(baseUrl + "errors/unauthorised")
+			.get(baseUrl + "/errors/unauthorised")
 			.catch(err => console.log(err.response))
-	}
-
-	function handleValidationError() {
-		axios.post(baseUrl + "timeline", {}).catch(err => setErrors(err))
 	}
 
 	return (
@@ -57,12 +47,6 @@ export default function TestErrors() {
 						primary
 					/>
 					<Button
-						onClick={handleValidationError}
-						content="Validation Error"
-						basic
-						primary
-					/>
-					<Button
 						onClick={handleServerError}
 						content="Server Error"
 						basic
@@ -76,7 +60,6 @@ export default function TestErrors() {
 					/>
 				</Button.Group>
 			</Segment>
-			{errors && <ValidationError errors={errors} />}
 		</>
 	)
 }

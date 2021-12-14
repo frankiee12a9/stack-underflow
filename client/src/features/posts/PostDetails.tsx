@@ -32,7 +32,6 @@ export default observer(function PostDetails() {
 		},
 		authStore: { user },
 	} = useStore()
-	// const [isPostOpen, setIsPostOpen] = useState(selectedPost?.isOpen)
 	const [postVotesCount, setPostVotesCount] = useState(
 		selectedPost?.upvotes.length!
 	)
@@ -94,12 +93,6 @@ export default observer(function PostDetails() {
 			</List>
 		</Grid.Column>
 	)
-
-	// const nonValidPostFilter = null
-
-	// if (user?.username === selectedPost?.username || user?.isAdmin) {
-	// } else {
-	// }
 
 	loadingPost && <Loading content="Loading post..." />
 

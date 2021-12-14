@@ -8,8 +8,6 @@ import { PostComment, CommentFormValues } from "app/models/comment"
 import { Post } from "app/models/post"
 import PostCommentItem from "./PostCommentItem"
 
-// handle JWT expired https://www.bezkoder.com/handle-jwt-token-expiration-react/
-
 interface Props {
 	post: Post
 	isOpen: boolean
@@ -35,6 +33,7 @@ export default observer(function PostCommentsList({ post, isOpen }: Props) {
 	const [commentsList, setCommentsList] = useState<PostComment[]>(
 		commentStore.comments!
 	)
+	const [socketSignal, setSocketSignal] = useState(commentStore.socketSignal)
 
 	useEffect(() => {
 		if (post?._id) {
@@ -47,21 +46,14 @@ export default observer(function PostCommentsList({ post, isOpen }: Props) {
 	}, [post?._id, commentStore])
 
 	useEffect(() => {
+		console.log(`Socket signal: ${socketSignal}`)
+	}, [socketSignal])
+
+	useEffect(() => {
 		if (post?._id) {
 			setCommentsList(commentStore.comments!)
 		}
-	}, [commentStore.comments, commentVotes, commentsList, post?._id])
-
-	useEffect(() => {
-		const _commentVotes = commentsList.map((comment, index) => {
-			const commentVote = {
-				sourceIndex: index,
-				sourceValue: comment.votes?.length!,
-			} as CommentVotesProps
-			return commentVote
-		})
-		setCommentVotes(_commentVotes)
-	}, [commentsList])
+	}, [commentStore.comments, post?._id])
 
 	return (
 		<>
@@ -99,6 +91,7 @@ export default observer(function PostCommentsList({ post, isOpen }: Props) {
 						onSubmit={(comment, { resetForm }) =>
 							commentStore
 								.addComment(post._id, comment)
+								.then(() => setSocketSignal(!socketSignal))
 								.then(() => resetForm({ values: { text: "" } }))
 						}
 						validationSchema={Yup.object({
@@ -106,7 +99,7 @@ export default observer(function PostCommentsList({ post, isOpen }: Props) {
 						})}>
 						{({ isSubmitting, isValid, handleSubmit }) => (
 							<Form className="ui form">
-								<Field name="text">
+								<Field name="text" className="custom_textarea">
 									{(props: FieldProps) => (
 										<div style={{ position: "relative" }}>
 											<Loader active={isSubmitting} />

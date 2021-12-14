@@ -32,9 +32,9 @@ export default observer(function FormPost() {
 		}
 	}, [postId, loadPost, categories])
 
-	useEffect(() => {
-		console.log(`selectedPost: ${selectedPost?.title}`)
-	}, [selectedPost])
+	// useEffect(() => {
+	// 	console.log(`selectedPost: ${selectedPost?.title}`)
+	// }, [selectedPost])
 
 	useEffect(() => {
 		if (!postId) getAllCategories()

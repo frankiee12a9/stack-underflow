@@ -11,12 +11,16 @@ export interface PostComment {
 }
 
 export class CommentFormValues {
+	id?: string = ""
 	commentator?: string = ""
-	text?: string = ""
+	text: string = ""
 	postId?: string = ""
-	constructor(comment?: CommentFormValues) {
-		this.commentator = comment?.commentator
-		this.text = comment?.text
-		this.postId = comment?.postId
+	constructor(comment?: PostComment) {
+		if (comment) {
+			this.id = comment._id
+			this.commentator = comment.commentator.username
+			this.text = comment.text
+			this.postId = comment.post
+		}
 	}
 }

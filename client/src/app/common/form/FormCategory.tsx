@@ -83,7 +83,7 @@ export default observer(function FormCategory() {
 						/>
 						<Button
 							as={Link}
-							to="/timeline"
+							to={tagTitle ? `/tags/${tagTitle}` : `/timeline`}
 							floated="right"
 							type="button"
 							content="Cancel"

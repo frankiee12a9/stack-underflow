@@ -9,7 +9,8 @@ export default class CommentStore {
 	comment: PostComment | null = null
 	socket: any | null = null
 	loadingComment: boolean = false
-	isVoting: boolean = false
+	isVoted: boolean = false
+	socketSignal = false
 	constructor() {
 		makeAutoObservable(this)
 	}
@@ -42,8 +43,8 @@ export default class CommentStore {
 
 	loadAllComments = async (postId: string) => {
 		try {
-			const comments = await agent.AppPostComment.getComments(postId)
-			runInAction(() => (this.comments = comments))
+			const response = await agent.AppPostComment.getComments(postId)
+			runInAction(() => (this.comments = response))
 		} catch (err) {
 			console.error(err)
 		}
@@ -56,7 +57,13 @@ export default class CommentStore {
 				commentator: store.authStore.user,
 			})
 		try {
-			await agent.AppPostComment.createComment(postId, comment!)
+			const response = await agent.AppPostComment.createComment(
+				postId,
+				comment!
+			)
+			runInAction(() => {
+				this.comment = response
+			})
 		} catch (err) {
 			console.error(err)
 		}
@@ -91,11 +98,11 @@ export default class CommentStore {
 		try {
 			await agent.AppPostComment.voteComment(postId, comment)
 			runInAction(() => {
-				this.isVoting = comment.votes.some(
+				this.isVoted = comment.votes.some(
 					voter => voter === store.authStore.user?.username
 				)
 
-				if (this.isVoting) {
+				if (this.isVoted) {
 					const voterIndex = comment?.votes?.indexOf(
 						store.authStore.user?.username!
 					)

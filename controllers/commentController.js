@@ -16,15 +16,16 @@ const createCommentHelper = async (postId, comment) => {
 	})
 }
 
-const deleteCommentHelper = (postId, commentId) => {
-	return Comment.findById(commentId).then(instance => {
-		console.log(instance)
-		return Post.findByIdAndUpdate(postId, {
+const deleteCommentHelper = async (postId, commentId) => {
+	const instance = await Comment.findById(commentId)
+	console.log(instance)
+	try {
+		return await Post.findByIdAndUpdate(postId, {
 			$pull: { comments: instance._id },
-		}).catch(err => {
-			console.log(err)
 		})
-	})
+	} catch (err) {
+		console.log(err)
+	}
 }
 
 exports.deleteComment = async (req, res) => {

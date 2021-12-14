@@ -59,7 +59,7 @@ export default observer(function TaggedPostsList() {
 									deleteCategory(category?._id!)
 										.then(() =>
 											toast.success(
-												"Tag was deleted successfully"
+												"Tag has been deleted successfully"
 											)
 										)
 										.then(() => history.push("/timeline"))

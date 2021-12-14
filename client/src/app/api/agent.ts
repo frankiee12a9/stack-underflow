@@ -19,20 +19,14 @@ const sleep = (delay: number) => {
 	})
 }
 
-// global axios default instance
-// axios.defaults.baseURL = "http://localhost:8800/api"
-
-// create new instance for specified url
-// with specified axios instance, api url can be accessed in other places
 // export const axiosInstance = axios.create({
 // 	baseURL: "https://dangling-qa.herokuapp.com/api",
 // })
+
+// axios.defaults.baseURL = process.env.REACT_APP_API_URL
 export const axiosInstance = axios.create({
 	baseURL: process.env.REACT_APP_API_URL,
 })
-// axios.defaults.baseURL = process.env.REACT_APP_API_URL
-
-console.log(`axiosInstance: ${axiosInstance}`)
 
 axiosInstance.interceptors.request.use(config => {
 	const token = store.commonStore.token
@@ -43,23 +37,21 @@ axiosInstance.interceptors.request.use(config => {
 axiosInstance.interceptors.response.use(
 	async response => {
 		await sleep(1000)
-		console.log(`response: ${response.data}`)
 		return response
 	},
 	// any response without 200 statusCode wil go here
 	(error: AxiosError) => {
 		const { data, status, config } = error.response!
-		console.log(`error: ${data}`)
 		switch (status) {
 			case 400: {
 				toast.error("bad request")
 				break
 			}
 			case 403: {
-				// window.location.replace("/")
 				toast.error(
 					"Your token has expired! Please login again to use app"
 				)
+				// window.location.replace("/")
 				break
 			}
 			case 401: {
@@ -67,8 +59,8 @@ axiosInstance.interceptors.response.use(
 				break
 			}
 			case 404: {
-				// window.location.replace("/notfound")
-				toast.error("not found")
+				window.location.replace("/notfound")
+				// toast.error("not found")
 				break
 			}
 			case 500: {
@@ -111,7 +103,7 @@ const AppUser = {
 	uploadProfilePicture: (image: Blob) => {
 		const formData = new FormData()
 		formData.append("image", image)
-		return axios
+		return axiosInstance
 			.post<Image>("users/profilePicture", formData, {
 				headers: { "Content-type": "multipart/form-data" },
 			})
@@ -142,7 +134,7 @@ const AppPost = {
 
 const AppPostComment = {
 	createComment: (postId: string, comment: CommentFormValues) =>
-		requests.post<void>(`/post/${postId}/addComment`, comment),
+		requests.post<PostComment>(`/post/${postId}/addComment`, comment),
 	deleteComment: (postId, commentId: string) =>
 		requests.del<void>(`/post/${postId}/delComment/${commentId}`),
 	getComments: (postId: string) =>

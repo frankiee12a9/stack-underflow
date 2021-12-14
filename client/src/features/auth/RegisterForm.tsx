@@ -15,8 +15,7 @@ export default observer(function RegisterForm() {
 	const history = useHistory()
 
 	const formFieldsValidation = Yup.object({
-		displayName: Yup.string().required(),
-		userName: Yup.string().required(),
+		username: Yup.string().required(),
 		email: Yup.string().required().email(),
 		password: Yup.string().required(),
 	})
@@ -38,7 +37,6 @@ export default observer(function RegisterForm() {
 				}
 				validationSchema={formFieldsValidation}>
 				{({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-					// in className `error` must be included, if not <ValidationError /> will not be occured
 					<Form
 						className="ui form error"
 						onSubmit={handleSubmit}
@@ -50,14 +48,14 @@ export default observer(function RegisterForm() {
 							color="teal"
 						/>
 						<FormTextInput
-							name="username"
-							placeholder="Username"
-							type="text"
-						/>
-						<FormTextInput
 							name="email"
 							placeholder="Email"
 							type="email"
+						/>
+						<FormTextInput
+							name="username"
+							placeholder="Username"
+							type="text"
 						/>
 						<FormTextInput
 							name="password"

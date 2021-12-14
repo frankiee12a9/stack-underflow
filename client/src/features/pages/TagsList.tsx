@@ -32,7 +32,9 @@ export default observer(function TagsList() {
 			<Segment attached>
 				<Label.Group style={{ textDecoration: "none" }}>
 					{categories &&
-						categories.map(category => <Tag tag={category} />)}
+						categories.map(category => (
+							<Tag key={category._id} tag={category} />
+						))}
 				</Label.Group>
 				<List.Item as={Link} to={`/tags`}>
 					want to create new tag?

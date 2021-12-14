@@ -52,7 +52,6 @@ export default observer(function UserProfileHeader({ userProfile }: Props) {
 		else console.log("You are not following this user")
 	}, [isFollowing])
 
-	// date time
 	const joinedDate = new Date(profileUser?.createdAt!),
 		month = joinedDate.getUTCMonth() + 1,
 		day = joinedDate.getUTCDate(),
@@ -93,6 +92,11 @@ export default observer(function UserProfileHeader({ userProfile }: Props) {
 			src={profileUser?.profilePicture?.url || `/assets/user.png`}
 		/>
 	)
+
+	const reputationText =
+		profileUser?.reputation! > 0
+			? `${profileUser?.reputation} reputations`
+			: `${profileUser?.reputation} reputation`
 
 	return (
 		<Segment>
@@ -164,16 +168,14 @@ export default observer(function UserProfileHeader({ userProfile }: Props) {
 										</abbr>
 									)}
 									<br />
-									{userProfile.reputation && (
-										<abbr>
-											<Icon
-												color="grey"
-												size="large"
-												name="star"
-											/>
-											{userProfile.reputation} reputations
-										</abbr>
-									)}
+									<abbr>
+										<Icon
+											color="grey"
+											size="large"
+											name="star"
+										/>
+										{reputationText}
+									</abbr>
 								</Item.Description>
 							</Item.Content>
 						</Item>
